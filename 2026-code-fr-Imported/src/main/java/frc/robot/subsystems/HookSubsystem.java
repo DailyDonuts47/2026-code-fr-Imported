@@ -28,17 +28,7 @@ public class HookSubsystem extends SubsystemBase {
 
 
     public void hookUp(double speed) {
-        if(hook.getEncoder().getPosition() < (hookZero + 0.018)) {
-        hook.set(speed);
-        System.out.println("Position: " + hook.getEncoder().getPosition()); //Code to determine the position of the encoder
-        } else {
-            hook.set(0);
-        }
-    }
-   
-    
-    public void hookDown(double speed) {
-        if(hook.getEncoder().getPosition() > hookZero) {
+        if(hook.getEncoder().getPosition() < (hookZero + 0.017)) {
         hook.set(speed);
         System.out.println("Position: " + hook.getEncoder().getPosition()); //Code to determine the position of the encoder
         } else {
