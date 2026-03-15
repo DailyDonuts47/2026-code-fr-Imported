@@ -29,12 +29,12 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
+//import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.IntakeSnakeSubsystem;
 import frc.robot.subsystems.IntakePivotSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
-import frc.robot.subsystems.HookSubsystem;
+//import frc.robot.subsystems.HookSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -46,9 +46,9 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final ShooterSubsystem m_robotShoot = new ShooterSubsystem();
-  private final ElevatorSubsystem m_robotElevate = new ElevatorSubsystem();
+  //private final ElevatorSubsystem m_robotElevate = new ElevatorSubsystem();
   private final IntakeSnakeSubsystem m_robotIntakeSnake = new IntakeSnakeSubsystem();
-  private final IntakePivotSubsystem m_robotIntakePivot = new IntakePivotSubsystem();
+  private IntakePivotSubsystem m_robotIntakePivot; //= new IntakePivotSubsystem();
   //private final HookSubsystem m_robotHook = new HookSubsystem();
   private final FeederSubsystem m_robotFeeder = new FeederSubsystem();
 
@@ -60,8 +60,9 @@ public class RobotContainer {
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer() {
+  public RobotContainer(IntakePivotSubsystem bob) {
     // Configure the button bindings
+    m_robotIntakePivot = bob;
     configureButtonBindings();
 
     // Configure default commands
@@ -104,12 +105,12 @@ public class RobotContainer {
     m_driverController.rightTrigger().whileTrue(runEnd(() -> m_robotShoot.accelerateShooter(), () -> m_robotShoot.stopShooter()));
     m_driverController.rightTrigger().whileTrue(runEnd(() -> shootBall(), () -> m_robotFeeder.feederSet(0)));
     m_operatorController.leftTrigger().whileTrue(runEnd(() -> m_robotIntakeSnake.intakeSnake(.6, m_robotFeeder.isRunning()), () -> m_robotIntakeSnake.intakeSnake(0, false)));
-    m_operatorController.povUp().whileTrue(runEnd(() -> m_robotIntakePivot.intakePivotUp(0.15), () -> m_robotIntakePivot.intakePivotUp(0)));
-    m_operatorController.povDown().whileTrue(runEnd(() -> m_robotIntakePivot.intakePivotDown(-0.15), () -> m_robotIntakePivot.intakePivotDown(0)));
-    m_operatorController.a().whileTrue(runEnd(() -> m_robotElevate.elevate(0.25), () -> m_robotElevate.elevate(0)));
-    m_operatorController.y().whileTrue(runEnd(() -> m_robotElevate.elevate(-0.25), () -> m_robotElevate.elevate(0)));
-   // m_operatorController.b().whileTrue(runEnd(() -> m_robotHook.hookOn(0.25), () -> m_robotHook.hookOff(0)));
-   // m_operatorController.x().whileTrue(runEnd(() -> m_robotHook.hookOff(-0.25), () -> m_robotHook.hookOff(0)));
+    m_operatorController.povUp().whileTrue(runEnd(() -> m_robotIntakePivot.intakePivotUp(0.1), () -> m_robotIntakePivot.intakePivotUp(0)));
+    m_operatorController.povDown().whileTrue(runEnd(() -> m_robotIntakePivot.intakePivotDown(-0.1), () -> m_robotIntakePivot.intakePivotDown(0)));
+    //m_operatorController.a().whileTrue(runEnd(() -> m_robotElevate.elevate(0.25), () -> m_robotElevate.elevate(0)));
+    //m_operatorController.y().whileTrue(runEnd(() -> m_robotElevate.elevate(-0.25), () -> m_robotElevate.elevate(0)));
+    // m_operatorController.b().whileTrue(runEnd(() -> m_robotHook.hookOn(0.25), () -> m_robotHook.hookOff(0)));
+    // m_operatorController.x().whileTrue(runEnd(() -> m_robotHook.hookOff(-0.25), () -> m_robotHook.hookOff(0)));
   }
  
   private void shootBall() { //This will run when the shooter motors get up to speed

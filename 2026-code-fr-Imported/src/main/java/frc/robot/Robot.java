@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.IntakePivotSubsystem;
 
 
 /**
@@ -15,7 +16,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
+
 public class Robot extends TimedRobot {
+  private IntakePivotSubsystem m_robotIntakePivot;
   
   private Command m_autonomousCommand;
 
@@ -29,7 +32,15 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    try{
+    m_robotIntakePivot = new IntakePivotSubsystem(); //Initializes the intake pivot subsystem so that we can read the encoder value in the next line
+    } catch (Exception e) {
+      System.out.println("Intake Pivot Subsystem failed to initialize. Check wiring and CAN ID, function robotInit.");
+      e.printStackTrace();
+    }
+    
+    m_robotIntakePivot.readIntakePivotEncoder(); //Calls the readIntakePivotEncoder method in Intake Pivot
+    m_robotContainer = new RobotContainer(m_robotIntakePivot);
   }
 
   /**
