@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakePivotSubsystem extends SubsystemBase {
     public SparkMax intakePivot;
-    public static final int  kIntakePivotMotorCanId = 23;
+    public static final int  kIntakePivotMotorCanId = 25;
     public double intakeZero;
 
     public IntakePivotSubsystem() {
