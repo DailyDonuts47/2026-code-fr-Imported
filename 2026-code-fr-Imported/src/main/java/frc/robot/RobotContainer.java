@@ -8,6 +8,9 @@ import static edu.wpi.first.wpilibj2.command.Commands.runEnd;
 
 import java.util.List;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -18,8 +21,10 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -61,6 +66,20 @@ public class RobotContainer {
 
 
   public RobotContainer() {
+    //Pathplanner
+   /* NamedCommands.registerCommand(
+      "Btm - Top",
+      Commands.sequence(
+      m_robotShoot.shooterSet(.8),
+      Commands.waitSeconds(8),
+      m_robotShoot.stopShooter(.8)
+      ));*/
+
+      /*
+      autoChooser = AutoBuilder.buildAutoChooser();    //Needed for Pathplanner
+      SmartDashboard.putData("AutoChooser", autoChooser);
+      */
+
     configureButtonBindings();
   }
   /**
@@ -116,7 +135,7 @@ public class RobotContainer {
 
 
 
-    m_operatorController.rightTrigger().whileTrue(runEnd(() -> m_robotShoot.shooterSet(.3), () -> m_robotShoot.stopShooter())); //old shooting code
+    m_operatorController.rightTrigger().whileTrue(runEnd(() -> m_robotShoot.shooterSet(.4), () -> m_robotShoot.stopShooter())); //old shooting code
    //m_driverController.rightTrigger().whileTrue(runEnd(() -> m_robotShoot.accelerateShooter(), () -> m_robotShoot.stopShooter()));
     m_operatorController.rightTrigger().whileTrue(runEnd(() -> shootBall(), () -> m_robotFeeder.feederSet(0)));
     m_operatorController.leftTrigger().whileTrue(runEnd(() -> m_robotIntakeSnake.intakeSnake(1, .2, m_robotFeeder.isRunning()), () -> m_robotIntakeSnake.intakeSnake(0, 0, false)));
@@ -129,7 +148,7 @@ public class RobotContainer {
  
   private void shootBall() { //This will run when the shooter motors get up to speed
     if (m_robotShoot.isReady()) {
-        m_robotFeeder.feederSet(.3);
+        m_robotFeeder.feederSet(-1);
     }
   }
   /**

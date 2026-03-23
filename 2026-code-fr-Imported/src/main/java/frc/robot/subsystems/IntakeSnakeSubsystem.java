@@ -14,7 +14,7 @@ public class IntakeSnakeSubsystem extends SubsystemBase {
     private DigitalInput IRSensor;
     public static final int  kIntakeFloorMotorCanId = 19;
     public static final int  kIntakeSnakeMotorCanId = 22;
-
+    
     public IntakeSnakeSubsystem() {
         intakeSnake = new SparkMax(kIntakeSnakeMotorCanId, MotorType.kBrushless);
         intakeFloor = new SparkFlex(kIntakeFloorMotorCanId, MotorType.kBrushless);
@@ -23,13 +23,13 @@ public class IntakeSnakeSubsystem extends SubsystemBase {
 
     public void intakeSnake(double speed1, double speed2, boolean feederRunning) { //IR Sensor gets if not blocked/ if detecting
         if(IRSensor.get()) {
-            System.out.println("IRSensor does not detect ball");
-        } else {
             System.out.println("IRSensor detects ball");
+        } else {
+            System.out.println("IRSensor does not detect ball");
         }
 
 
-     if (IRSensor.get() == true || speed1 == 0 || feederRunning) { //we might have to set IRSensor.get to need to be false based on how the ir sensor works, needs testing
+     if (IRSensor.get() == false || speed1 == 0 || feederRunning) { //we might have to set IRSensor.get to need to be false based on how the ir sensor works, needs testing
             intakeSnake.set(speed1);
         } else {
             intakeSnake.set(0);
